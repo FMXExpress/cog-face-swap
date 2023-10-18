@@ -1,5 +1,6 @@
-# face-alignment-cog
+# face-detection & alignment-cog
 
-Cog implementation of face alignment code from https://github.com/Puzer/stylegan-encoder.
+Cog implementation of face detection and alignment, utilizing C++ dlib's python wrapper
 
-Often the input image for a model needs to be aligned and cropped beforehand and this demo provides an easy way to preprocess customised input images. Try Replicate web demo here [![Replicate](https://replicate.com/cjwbw/face-align-cog/badge)](https://replicate.com/cjwbw/face-align-cog)
+Often the input image needs to be aligned and cropped beforehand and this demo provides an easy way to preprocess customised input images.
+face boxes with/without aligned face images are returned.
