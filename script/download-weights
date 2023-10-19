@@ -1,0 +1,3 @@
+# download face_landmark and clone the stylegan-encoder repo first
+wget -P checkpoints http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2
+bzip -d './checkpoints/shape_predictor_68_face_landmarks.dat.bz2'
