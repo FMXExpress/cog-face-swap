@@ -1,18 +1,32 @@
+# Configuration for Cog ⚙️
+# Reference: https://github.com/replicate/cog/blob/main/docs/yaml.md
+
 build:
-  cuda: "11.0"
-  python_version: "3.8"
+  gpu: true
+
+  # a list of ubuntu apt packages to install
   system_packages:
     - "libgl1-mesa-glx"
     - "libglib2.0-0"
-  python_packages:
-    # - "ipython==7.21.0"
-    - "torch==1.10.1"
-    - "torchvision==0.11.2"
-    - "numpy==1.20.3"
-    - "Pillow==8.3.2"
-    - "scipy==1.8.1"
-    - "cmake==3.21.3"
-  run:
-    - pip install dlib
+    - "libsm6" 
+    - "libxext6"
 
+  # python version >= 3.9, pytorch>=1.7 and torchvision>=0.8
+  python_version: "3.9"
+
+  python_packages:
+    - "torch"
+    - "torchvision"
+    - "opencv-python"
+    - "insightface==0.7.3"
+    - "onnxruntime-gpu"
+    - "gfpgan"
+
+  # commands run after the environment is setup
+  run:
+    - "echo env is ready!"
+
+# predict.py defines how predictions are run on your model
 predict: "predict.py:Predictor"
+
+# image: "r8.im/peter65374/faceswap"
