@@ -1,21 +1,26 @@
-"""
-download face_landmark and clone the stylegan-encoder repo first
-wget http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2
-bunzip2 shape_predictor_68_face_landmarks.dat.bz2
-git clone https://github.com/Puzer/stylegan-encoder
-"""
-import sys
-sys.path.insert(0, "stylegan-encoder")
+# utf-8
 import tempfile
 import dlib
 from cog import BasePredictor, Path, Input
+import os
 
 from ffhq_dataset.face_alignment import image_align
 from ffhq_dataset.landmarks_detector import LandmarksDetector
 
 
-PREDICTOR = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
-LANDMARKS_DETECTOR = LandmarksDetector("shape_predictor_68_face_landmarks.dat")
+LANDMARKS_DETECTOR = LandmarksDetector("./checkpoints/shape_predictor_68_face_landmarks.dat")
+
+def align_image(raw_img_path, aligned_face_dir):
+    output_list = []
+    if not os.path.exists(aligned_face_dir):
+        os.makedirs(aligned_face_dir)
+    for i, face_landmarks in enumerate(LANDMARKS_DETECTOR.get_landmarks(raw_img_path), start=1):
+        face_img_name = '%s_%02d.png' % (os.path.splitext(raw_img_path)[0], i)
+        print(f"face name{i}: {face_img_name}")
+        aligned_face_path = os.path.join(aligned_face_dir, face_img_name)
+        image_align(raw_img_path, aligned_face_path, face_landmarks)
+        output_list.append(aligned_face_path)
+    return output_list
 
 
 class Predictor(BasePredictor):
@@ -27,14 +32,9 @@ class Predictor(BasePredictor):
         image: Path = Input(
             description="Input source image.",
         ),
-    ) -> Path:
-        out_path = Path(tempfile.mkdtemp()) / "output.png"
-        align_image(str(image), str(out_path))
-        return out_path
+    ) -> list[Path]:
+        out_path_dir = "aligned_image"
+        output = align_image(str(image), str(out_path_dir))
 
+        return output
 
-def align_image(raw_img_path, aligned_face_path):
-    for i, face_landmarks in enumerate(
-        LANDMARKS_DETECTOR.get_landmarks(raw_img_path), start=1
-    ):
-        image_align(raw_img_path, aligned_face_path, face_landmarks)
