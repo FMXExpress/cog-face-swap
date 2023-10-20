@@ -2,7 +2,7 @@
 # https://github.com/replicate/cog/blob/main/docs/python.md
 
 import tempfile
-from typing import Optional, Union
+from typing import Optional, Union, List
 import time
 
 from cog import BasePredictor, Path, Input
@@ -90,7 +90,7 @@ class Predictor(BasePredictor):
             choices=["swap", "detect"],
             description="Face swap mode or detection mode. Default is swap.",
         ),
-    ) -> Union(list[tuple], list[Path]):
+    ) -> Union[List[tuple], List[Path]]:
         """Run a single prediction on the model"""
         # Check if inference_mode is detect or swap
         if inference_mode == "detect":
@@ -118,14 +118,14 @@ class Predictor(BasePredictor):
             # 2.inference
             # detect faces
             if detect_mode:
-                face_bboxes = self.detect_faces(target_image)
+                face_bboxes = self.detect_faces(target)
                 if not face_bboxes:
                     raise ValueError(f"Error: No face found in target image")
                 return face_bboxes
 
             # swap multiple faces in target image
             else:
-                swapped_image = self.swap_faces(target_image, src_faces)
+                swapped_image = self.swap_faces(target, src_faces)
 
                 # 3.postprocess
                 # Save the image to a temporary file
