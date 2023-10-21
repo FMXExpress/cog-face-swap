@@ -167,4 +167,4 @@ cython_debug/
 .vscode
 
 # checkpoint, safetensors models
-.checkpoints/
+checkpoints/

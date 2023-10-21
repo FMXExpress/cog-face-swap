@@ -23,11 +23,13 @@ build:
     - "gfpgan"
 
   # commands run after the environment is setup
+  # Download and extract the buffalo_l model
   run:
     - "apt-get update && apt-get install -y unzip && rm -rf /var/lib/apt/lists/*"
     - "mkdir -p ~/.insightface/models/buffalo_l/"
     - "wget https://github.com/deepinsight/insightface/releases/download/v0.7/buffalo_l.zip"
     - "unzip buffalo_l.zip -d ~/.insightface/models/buffalo_l"
+    - "rm buffalo_l.zip"
     - "echo env is ready!"
 
 # predict.py defines how predictions are run on your model

@@ -26,7 +26,7 @@ class Predictor(BasePredictor):
         # Load the face swapper model
         self.swapper = insightface.model_zoo.get_model('./checkpoints/inswapper_128.onnx', download=True, download_zip=True)
         # Load GFPGAN upscaler
-        self.face_enhancer = gfpgan.GFPGANer(model_path='./checkpoints/GFPGANv1.4.pth', upscale=2)
+        self.face_enhancer = gfpgan.GFPGANer(model_path='./checkpoints/GFPGANv1.4.pth', upscale=1)
 
     def get_single_face(self, img_data):
         '''get and return the largest single face in a image'''
